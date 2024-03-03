@@ -13,9 +13,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - image_name: ServiceA
+          - image_name: servicea
             dockerfile_path: ./ServiceA
-          - image_name: ServiceB
+          - image_name: serviceb
             dockerfile_path: ./ServiceB
 
     steps:
