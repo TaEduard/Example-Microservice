@@ -34,12 +34,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.CR_PAT }}
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2
+      - name: Build and push
+        uses: docker/build-push-action@v4
         with:
           context: .
           file: ${{ matrix.dockerfile_path }}
           push: true
           tags: ghcr.io/${{ env.LOWERCASE_REPOSITORY_OWNER }}/example-microservice:${{ matrix.image_tag }}
-
-
