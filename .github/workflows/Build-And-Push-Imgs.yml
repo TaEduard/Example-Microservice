@@ -17,10 +17,8 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v2
 
-      - name: Set LOWERCASE_REPOSITORY_OWNER
-        id: set_env
-        run: |
-          echo "LOWERCASE_REPOSITORY_OWNER=$(${{ github.repository_owner }} | lower)" >> $GITHUB_ENV
+      - name: Convert repository owner to lowercase and set as env var
+        run: echo "LOWERCASE_REPOSITORY_OWNER=${{ github.repository_owner }} | tr '[:upper:]' '[:lower:]'" >> $GITHUB_ENV
         shell: bash
 
       - name: Log in to GitHub Container Registry
