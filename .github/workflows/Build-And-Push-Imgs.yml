@@ -17,10 +17,15 @@ jobs:
             dockerfile_path: ./ServiceA
           - image_tag: serviceb
             dockerfile_path: ./ServiceB
+    env:
+      LOWERCASE_REPOSITORY_OWNER: ${{ github.repository_owner }}
 
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
+
+      - name: Convert repository owner to lowercase
+        run: echo "LOWERCASE_REPOSITORY_OWNER=${GITHUB_REPOSITORY_OWNER,,}" >> $GITHUB_ENV
 
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v2
@@ -35,4 +40,6 @@ jobs:
           context: .
           file: ${{ matrix.dockerfile_path }}
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/example-microservice:${{ matrix.image_tag }}
+          tags: ghcr.io/${{ env.LOWERCASE_REPOSITORY_OWNER }}/example-microservice:${{ matrix.image_tag }}
+
+
