@@ -2,7 +2,10 @@ package main
 
 import (
 	"sync"
-	"testing"
+	"encoding/json"
+    "io/ioutil"
+    "net/http"
+    "testing"
 )
 
 // TestCalculateAveragePrice tests the calculateAveragePrice function.
@@ -28,4 +31,49 @@ func TestCalculateAveragePrice(t *testing.T) {
 			t.Errorf("calculateAveragePrice() with prices %v = %v; want %v", tc.prices, got, tc.want)
 		}
 	}
+}
+
+// fetchPriceFromCryptoCompare fetches the current Bitcoin price from CryptoCompare
+func fetchPriceFromCryptoCompare() (float64, error) {
+    resp, err := http.Get("https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD")
+    if err != nil {
+        return 0, err
+    }
+    defer resp.Body.Close()
+
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return 0, err
+    }
+
+    var result map[string]float64
+    if err := json.Unmarshal(body, &result); err != nil {
+        return 0, err
+    }
+
+    return result["USD"], nil
+}
+
+// TestFetchCurrentBitcoinPrice compares the price fetched from your function with the price from CryptoCompare
+func TestFetchCurrentBitcoinPrice(t *testing.T) {
+    priceFromCoindesk, err := fetchCurrentBitcoinPrice()
+    if err != nil {
+        t.Fatalf("fetchCurrentBitcoinPrice failed: %v", err)
+    }
+
+    priceFromCryptoCompare, err := fetchPriceFromCryptoCompare()
+    if err != nil {
+        t.Fatalf("fetchPriceFromCryptoCompare failed: %v", err)
+    }
+
+    // Assuming a tolerance of $1000 is acceptable for the price difference
+    tolerance := 1.0
+    difference := priceFromCoindesk - priceFromCryptoCompare
+    if difference < 0 {
+        difference = -difference // Ensure the difference is positive
+    }
+
+    if difference > tolerance {
+        t.Errorf("Price difference between Coindesk and CryptoCompare is too large: %f", difference)
+    }
 }

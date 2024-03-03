@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"sync"
 	"time"
+	"github.com/tidwall/gjson"
 )
 
 // Global variables to store prices and mutex for safe access
@@ -16,26 +17,23 @@ var (
 	pricesMutex sync.Mutex
 )
 
-// fetchCurrentBitcoinPrice fetches the current Bitcoin price in USD
 func fetchCurrentBitcoinPrice() (float64, error) {
-	resp, err := http.Get("https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD")
-	if err != nil {
-		return 0, err
-	}
-	defer resp.Body.Close()
+    resp, err := http.Get("https://api.coindesk.com/v1/bpi/currentprice/USD.json")
+    if err != nil {
+        return 0, err
+    }
+    defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return 0, err
-	}
+    body, err := ioutil.ReadAll(resp.Body)
+    if err != nil {
+        return 0, err
+    }
+	bodyString := string(body)
 
-	var result map[string]float64
-	err = json.Unmarshal(body, &result)
-	if err != nil {
-		return 0, err
-	}
+    // Convert the body to a string
+	rateFloat := gjson.Get(bodyString, "bpi.USD.rate_float").Float()
 
-	return result["USD"], nil
+    return rateFloat, nil
 }
 
 // updatePrices updates the global slice of prices with the latest price
@@ -120,7 +118,6 @@ func startWebServer() {
 
 func main() {
 	fmt.Printf("Starting Service...")
-	
 	go updatePrices()
 	startWebServer()
 }
