@@ -35,4 +35,4 @@ jobs:
           context: .
           file: ${{ matrix.dockerfile_path }}
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/Example-Microservice:${{ matrix.image_tag }}
+          tags: ghcr.io/${{ github.repository_owner }}/example-microservice:${{ matrix.image_tag }}
