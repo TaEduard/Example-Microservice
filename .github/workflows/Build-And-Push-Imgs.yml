@@ -13,10 +13,10 @@ jobs:
     strategy:
       matrix:
         include:
-          - image_tag: servicea
-            dockerfile_path: ./ServiceA
-          - image_tag: serviceb
-            dockerfile_path: ./ServiceB
+        - image_tag: servicea
+          dockerfile_path: ./ServiceA/Dockerfile
+        - image_tag: serviceb
+          dockerfile_path: ./ServiceB/Dockerfile
     env:
       LOWERCASE_REPOSITORY_OWNER: ${{ github.repository_owner }}
 
