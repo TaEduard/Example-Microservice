@@ -33,4 +33,4 @@ jobs:
           context: ./${{ matrix.service }}
           file: ./${{ matrix.service }}/Dockerfile
           push: true
-          tags: ghcr.io/${{ env.LOWERCASE_REPOSITORY_OWNER }}/example-microservice:${{ matrix.service }}
+          tags: ghcr.io/${{ env.LOWERCASE_REPOSITORY_OWNER }}/${{ matrix.service }}:latest
