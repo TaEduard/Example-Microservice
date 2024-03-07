@@ -10,6 +10,16 @@ jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+
+    # Default settings for all `run` commands in this job
+    defaults:
+      run:
+        working-directory: ${{ env.WORKING_DIRECTORY }}
 
     steps:
       - name: 'Checkout'
@@ -19,6 +29,12 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 1.7.4
+     
+      - name: 'Install kubectl'
+        run: |
+          curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+          chmod +x ./kubectl
+          sudo mv ./kubectl /usr/local/bin/kubectl
 
       - name: 'Azure Login'
         uses: azure/login@v2
@@ -27,21 +43,9 @@ jobs:
 
       - name: 'Terraform Init'
         run: terraform init
-        working-directory: ./Infra
-        env:
-          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
       - name: 'Terraform Plan'
         run: terraform plan
-        working-directory: ./Infra
-        env:
-          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
 
       # - name: 'Terraform Apply'
       #   run: terraform apply -auto-approve

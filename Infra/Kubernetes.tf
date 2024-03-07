@@ -19,7 +19,14 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
     Environment = "Terraform AKS"
   }
 }
+resource "null_resource" "apply_k8s_config" {
+  depends_on = [azurerm_kubernetes_cluster.aks_cluster]
 
-# resource "kubectl_manifest" "example" {
-#   yaml_body = file("${path.module}/example-deployment.yaml")
-# }
+  provisioner "local-exec" {
+    command = "kubectl apply -f ./Yaml/nginx.yaml --kubeconfig=./kubeconfig"
+  }
+
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+}
