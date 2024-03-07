@@ -15,8 +15,8 @@ jobs:
       ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-      WORKING_DIRECTORY: './Infra' # Define the working directory here
-
+      WORKING_DIRECTORY: './Infra' 
+      
     # Default settings for all `run` commands in this job
     defaults:
       run:
@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: 'Checkout'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: 'Set up Terraform'
         uses: hashicorp/setup-terraform@v1
@@ -43,11 +43,10 @@ jobs:
           creds: '{"clientId":"${{ secrets.ARM_CLIENT_ID }}","clientSecret":"${{ secrets.ARM_CLIENT_SECRET }}","subscriptionId":"${{ secrets.ARM_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.ARM_TENANT_ID }}"}'
 
       - name: 'Terraform Init'
-        run: terraform init
+        run: terraform init 
 
       - name: 'Terraform Plan'
-        run: terraform plan
+        run: terraform plan -no-color
 
-      # - name: 'Terraform Apply'
-      #   run: terraform apply -auto-approve
-      #  working-directory: ./Infra
+      - name: 'Terraform Apply'
+        run: terraform apply -auto-approve -no-color
