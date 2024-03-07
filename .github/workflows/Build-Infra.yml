@@ -21,7 +21,7 @@ jobs:
           terraform_version: 1.7.4
 
       - name: 'Azure Login'
-        uses: azure/login@v1
+        uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
@@ -31,5 +31,5 @@ jobs:
       - name: 'Terraform Plan'
         run: terraform plan
 
-      - name: 'Terraform Apply'
-        run: terraform apply -auto-approve
+      # - name: 'Terraform Apply'
+      #   run: terraform apply -auto-approve
