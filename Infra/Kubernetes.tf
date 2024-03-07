@@ -20,6 +20,6 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
   }
 }
 
-resource "kubectl_manifest" "example" {
-  yaml_body = file("${path.module}/example-deployment.yaml")
-}
+# resource "kubectl_manifest" "example" {
+#   yaml_body = file("${path.module}/example-deployment.yaml")
+# }
