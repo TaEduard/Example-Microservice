@@ -5,10 +5,10 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
   dns_prefix          = "myakscluster"
 
   default_node_pool {
-    name       = "default"
-    node_count = 1
-    vm_size    = "Standard_D2_v2"
-    vnet_subnet_id  = azurerm_subnet.aks_subnet.id
+    name           = "default"
+    node_count     = 1
+    vm_size        = "Standard_D2_v2"
+    vnet_subnet_id = azurerm_subnet.aks_subnet.id
   }
 
   identity {
@@ -18,6 +18,16 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
   tags = {
     Environment = "Terraform AKS"
   }
+}
+
+resource "null_resource" "Debug" {
+  depends_on = [azurerm_kubernetes_cluster.aks_cluster]
+
+
+  provisioner "local-exec" {
+    command = "cat ./kubeconfig || echo 'kubeconfig not found'"
+  }
+
 }
 resource "null_resource" "apply_k8s_config" {
   depends_on = [azurerm_kubernetes_cluster.aks_cluster]
