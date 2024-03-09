@@ -1,4 +1,4 @@
 variable "tenant_id" {
+  description = "The Tenant ID."
   type    = string
-  default = "${sys.env.ARM_TENANT_ID}"
 }
