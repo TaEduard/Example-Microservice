@@ -18,58 +18,36 @@ This repository uses GitHub Actions for continuous integration and continuous de
 - **File:** `./Build-Infra.yml`
 - **Description:** This workflow applies the terraform infrastructure.
 - **Requred Secrets:** 
-1. `ARM_CLIENT_ID`
-1. `ARM_CLIENT_SECRET`
-1. `ARM_SUBSCRIPTION_ID`
-1. `ARM_TENANT_ID`
+1. `ARM_CLIENT_ID` - SPN client Id
+1. `ARM_CLIENT_SECRET` - SPN client secret
+1. `ARM_SUBSCRIPTION_ID` - SPN subscription id
+1. `ARM_TENANT_ID` - SPN tennant id
 
 
-#### Easy way to create the SPN 
-```
-ad sp create-for-rbac --name TerraformSPN --role Contributor --scopes /subscriptions/<Your-SUB> --sdk-auth
-```
-
-#### Easy way to create the storage account
-```
-az group create --name TFState --location <Your-Region>
-az storage account create --name mystorerraform --resource-group TFState --location <Your-Region> --sku Standard_LRS --encryption-services blob
-az storage container create --name terraformstate --account-name mystorerraform
-```
 
 ### Generate and Push SSH Key to Azure Key Vault
 - **File:** `./Rotate-ssh-key.yml`
 - **Description:** This workflow rotates the ssh key created for the runner vm.
 - **Requred Secrets:** 
-1. `ARM_CLIENT_ID`
-1. `ARM_CLIENT_SECRET`
-1. `ARM_SUBSCRIPTION_ID`
-1. `ARM_TENANT_ID`
+1. `ARM_CLIENT_ID` - SPN client Id
+1. `ARM_CLIENT_SECRET` - SPN client secret
+1. `ARM_SUBSCRIPTION_ID` - SPN subscription id
+1. `ARM_TENANT_ID` - SPN tennant id
 
 
 ### Kubectl: Apply
 - **File:** `./Configure-kubernetes.yml`
 - **Description:** This workflow rotates the ssh key created for the runner vm. 
 - **Requred Secrets:** 
-1. `ARM_CLIENT_ID`
-1. `ARM_CLIENT_SECRET`
-1. `ARM_SUBSCRIPTION_ID`
-1. `ARM_TENANT_ID`
+1. `ARM_CLIENT_ID` - SPN client Id
+1. `ARM_CLIENT_SECRET` - SPN client secret
+1. `ARM_SUBSCRIPTION_ID` - SPN subscription id
+1. `ARM_TENANT_ID` - SPN tennant id
 
 
 
 
-# After the vm was created
 
-1. install az cli: `curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash`
-1. install github runner 
-1. Setup MSI : `az login --identity --allow-no-subscriptions`
-1. Install Kubectl:  
-```
-curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
-chmod +x ./kubectl
-sudo mv ./kubectl /usr/local/bin/kubectl
-
-```
 
 ## Usage
 

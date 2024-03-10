@@ -1,5 +1,6 @@
+# Example-Microservice
 
-
+[How to guide](./How-to-setup-repo.md)
 
 Create Kubernetes cluster in Azure, AWS or GCP, using Pulumi or Terraform:
 
