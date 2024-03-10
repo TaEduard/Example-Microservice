@@ -36,7 +36,9 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: service-b-ingress
+  name: service-a-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
   - host: ed-service-b.duckdns.org 
