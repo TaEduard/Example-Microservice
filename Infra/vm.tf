@@ -1,5 +1,5 @@
 data "azurerm_key_vault_secret" "public_key" {
-  name         = "public-key" # The name used when storing the public key in the Key Vault
+  name         = "github-ssh-public-key" # The name used when storing the public key in the Key Vault
   key_vault_id = azurerm_key_vault.Kv1.id
 }
 
