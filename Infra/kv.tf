@@ -23,6 +23,9 @@ resource "azurerm_key_vault_access_policy" "policy" {
   object_id = data.azurerm_client_config.current.object_id
 
 secret_permissions = ["Get","List","Set","Delete","Recover","Backup","Restore","Purge"]
+  depends_on = [
+    azurerm_key_vault.Kv1
+  ]
 }
 
 
@@ -32,6 +35,7 @@ resource "azurerm_key_vault_secret" "kubeconfig" {
   key_vault_id = azurerm_key_vault.Kv1.id
 
   depends_on = [
+    azurerm_key_vault_access_policy.policy,
     azurerm_kubernetes_cluster.aks_cluster,
   ]
 }
