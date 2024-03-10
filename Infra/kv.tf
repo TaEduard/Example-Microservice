@@ -30,7 +30,7 @@ secret_permissions = ["Get","List","Set","Delete","Recover","Backup","Restore","
 
 
 resource "azurerm_key_vault_secret" "kubeconfig" {
-  name         = "kubeconfig"
+  name         = "kubeconfig-${random_string.example.result}"
   value        = azurerm_kubernetes_cluster.aks_cluster.kube_config_raw
   key_vault_id = azurerm_key_vault.Kv1.id
 

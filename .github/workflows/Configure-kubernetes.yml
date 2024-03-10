@@ -44,6 +44,6 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f ./*
+          kubectl apply -f ./$WORKING_DIRECTORY/*
         env:
           KUBECONFIG: ${{ env.KUBECONFIG_FILE }}
