@@ -15,6 +15,12 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
     type = "SystemAssigned"
   }
 
+  role_based_access_control_enabled = true
+  api_server_access_profile {
+    authorized_ip_ranges = ["0.0.0.0/0"] # Not recommended for production
+  }
+
+
   tags = {
     Environment = "Terraform AKS"
   }

@@ -39,3 +39,27 @@ resource "azurerm_key_vault_secret" "kubeconfig" {
     azurerm_kubernetes_cluster.aks_cluster,
   ]
 }
+
+resource "null_resource" "generate_ssh_key" {
+  triggers = {
+    always_run = "${timestamp()}"
+  }
+
+  provisioner "local-exec" {
+    command = "openssl genrsa -out private_key.pem 2048 && openssl rsa -pubout -in private_key.pem -out public_key.pem"
+  }
+}
+
+resource "azurerm_key_vault_secret" "private_key" {
+  name         = "private-key"
+  value        = file("${path.module}/private_key.pem")
+  key_vault_id = azurerm_key_vault.Kv1.id
+  depends_on   = [null_resource.generate_ssh_key]
+}
+
+resource "azurerm_key_vault_secret" "public_key" {
+  name         = "public-key"
+  value        = file("${path.module}/public_key.pem")
+  key_vault_id = azurerm_key_vault.Kv1.id
+  depends_on   = [null_resource.generate_ssh_key]
+}
