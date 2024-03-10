@@ -1,7 +1,7 @@
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_key_vault" "Kv1" {
-  name                       = "kubernetesSecrets${random_string.example.result}"
+  name                       = "kv-${random_string.example.result}"
   location                   = azurerm_resource_group.aks_rg.location
   resource_group_name        = azurerm_resource_group.aks_rg.name
   tenant_id                  = data.azurerm_client_config.current.tenant_id
