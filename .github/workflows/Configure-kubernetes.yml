@@ -26,7 +26,7 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
-          for file in $WORKING_DIRECTORY/*.yml $WORKING_DIRECTORY/*.yaml; do
+          for file in $WORKING_DIRECTORY/*.yml; do
             kubectl apply -f "$file"
           done
         env:

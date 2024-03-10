@@ -9,7 +9,7 @@ resource "azurerm_subnet" "aks_subnet" {
   name                 = "aksSubnet"
   resource_group_name  = azurerm_resource_group.aks_rg.name
   virtual_network_name = azurerm_virtual_network.aks_vnet.name
-  address_prefixes     = ["10.10.1.0/24"]
+  address_prefixes     = [var.default_subnet]
 }
 
 resource "azurerm_subnet" "aks_bastion_subnet" {

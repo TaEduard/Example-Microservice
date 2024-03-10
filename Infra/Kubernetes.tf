@@ -16,13 +16,14 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
   }
 
   role_based_access_control_enabled = true
-  api_server_access_profile {
-    authorized_ip_ranges = ["0.0.0.0/0"] # Not recommended for production
-  }
 
+  # Updated to restrict API server access
+  api_server_access_profile {
+    # Remove or adjust this line to change public API access. To restrict access, specify a limited set of IP ranges.
+     authorized_ip_ranges = [var.default_subnet]
+  }
 
   tags = {
     Environment = "Terraform AKS"
   }
 }
-
