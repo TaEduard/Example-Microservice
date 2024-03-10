@@ -15,8 +15,6 @@ resource "azurerm_key_vault" "Kv1" {
     bypass         = "AzureServices"
   }
 }
-data "azurerm_client_config" "current" {}
-
 
 resource "azurerm_key_vault_access_policy" "policy" {
   key_vault_id = azurerm_key_vault.kv1.id
