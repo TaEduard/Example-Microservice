@@ -26,12 +26,12 @@ jobs:
       - name: Generate SSH key pair
         id: ssh-key
         run: |
-          ssh-keygen -t rsa -b 4096 -f github_actions_ssh_key -N ""
+          ssh-keygen -t rsa -b 4096 -f github_actions_ssh_key -N "" > /dev/null
 
       - name: Upload SSH private key to Azure Key Vault
         run: |
-          az keyvault secret set --vault-name ${{ secrets.KVName }} --name github-ssh-private-key --file github_actions_ssh_key
+          az keyvault secret set --vault-name ${{ secrets.KVName }} --name github-ssh-private-key --file github_actions_ssh_key > /dev/null
       
       - name: Upload SSH public key to Azure Key Vault
         run: |
-          az keyvault secret set --vault-name ${{ secrets.KVName }} --name github-ssh-public-key --file github_actions_ssh_key.pub
+          az keyvault secret set --vault-name ${{ secrets.KVName }} --name github-ssh-public-key --file github_actions_ssh_key.pub > /dev/null

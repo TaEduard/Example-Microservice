@@ -2,6 +2,10 @@ data "azurerm_key_vault_secret" "public_key" {
   name         = "github-ssh-public-key" # The name used when storing the public key in the Key Vault
   key_vault_id = azurerm_key_vault.Kv1.id
 }
+data "azurerm_key_vault_secret" "private_key" {
+  name         = "github-ssh-private-key" # The name used when storing the public key in the Key Vault
+  key_vault_id = azurerm_key_vault.Kv1.id
+}
 
 resource "azurerm_virtual_machine" "runner_vm" {
   name                  = "github-runner-vm"
@@ -59,9 +63,9 @@ resource "null_resource" "setup_github_runner" {
 
   connection {
     type        = "ssh"
-    host        = azurerm_virtual_machine.runner_vm.public_ip_address
+    host        = azurerm_network_interface.runner_nic.private_ip_address
     user        = "adminuser"
-    private_key = file("${path.module}/id_rsa")
+    private_key = data.azurerm_key_vault_secret.private_key.value
   }
 
   provisioner "remote-exec" {
@@ -75,4 +79,3 @@ resource "null_resource" "setup_github_runner" {
     ]
   }
 }
-
