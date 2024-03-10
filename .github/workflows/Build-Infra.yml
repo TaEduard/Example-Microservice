@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    paths: 
+      - 'Infra/**'
+
   workflow_dispatch:
 
 jobs:
@@ -16,7 +19,7 @@ jobs:
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
       WORKING_DIRECTORY: './Infra' 
-      
+
     # Default settings for all `run` commands in this job
     defaults:
       run:
