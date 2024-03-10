@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"encoding/json"
 	"io/ioutil"
 	"log"
@@ -117,7 +116,7 @@ func startWebServer() {
 }
 
 func main() {
-	fmt.Printf("Starting Service...")
+    log.Println("Service A is running on port 80")
 	go updatePrices()
 	startWebServer()
 }

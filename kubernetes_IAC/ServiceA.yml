@@ -15,6 +15,7 @@ spec:
       containers:
       - name: service-a
         image: ghcr.io/taeduard/service_a:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
 
