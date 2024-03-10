@@ -57,6 +57,13 @@ az storage container create --name terraformstate --account-name mystorerraform
 1. `ARM_TENANT_ID`
 
 
+
+
+# After the vm was created
+
+1. install az cli: `curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash`
+1. install github runner 
+
 ## Usage
 
 To trigger a workflow manually, navigate to the "Actions" tab in the GitHub repository, select the workflow you want to run, and click "Run workflow".

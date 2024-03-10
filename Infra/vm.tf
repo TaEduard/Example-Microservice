@@ -36,6 +36,9 @@ resource "azurerm_virtual_machine" "runner_vm" {
       key_data = data.azurerm_key_vault_secret.public_key.value
     }
   }
+  identity {
+    type = "SystemAssigned"
+  }
 }
 
 resource "azurerm_network_interface" "runner_nic" {
