@@ -6,11 +6,11 @@
 Published services :
 
 service A:
-[Service A ](http://ed-service-a.duckdns.org/)
-[Service A Average](http://ed-service-a.duckdns.org/average)
+- [Service A ](http://ed-service-a.duckdns.org/)
+- [Service A Average](http://ed-service-a.duckdns.org/average)
 
 service B:
-[Service B ](http://ed-service-b.duckdns.org/)
+- [Service B ](http://ed-service-b.duckdns.org/)
 
 Create Kubernetes cluster in Azure, AWS or GCP, using Pulumi or Terraform:
 
