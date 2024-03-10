@@ -36,7 +36,6 @@ az storage account create --name mystorerraform --resource-group TFState --locat
 az storage container create --name terraformstate --account-name mystorerraform
 ```
 
-
 ### Generate and Push SSH Key to Azure Key Vault
 - **File:** `./Rotate-ssh-key.yml`
 - **Description:** This workflow rotates the ssh key created for the runner vm.
@@ -63,6 +62,14 @@ az storage container create --name terraformstate --account-name mystorerraform
 
 1. install az cli: `curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash`
 1. install github runner 
+1. Setup MSI : `az login --identity --allow-no-subscriptions`
+1. Install Kubectl:  
+```
+curl -LO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x ./kubectl
+sudo mv ./kubectl /usr/local/bin/kubectl
+
+```
 
 ## Usage
 
