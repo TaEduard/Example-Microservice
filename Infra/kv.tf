@@ -1,3 +1,5 @@
+data "azurerm_client_config" "current" {}
+
 resource "azurerm_key_vault" "Kv1" {
   name                       = "kubernetesSecrets${random_string.example.result}"
   location                   = azurerm_resource_group.aks_rg.location
