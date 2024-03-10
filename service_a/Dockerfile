@@ -29,7 +29,7 @@ WORKDIR /root/
 COPY --from=builder /app/main .
 
 # Expose port 8081 
-EXPOSE 8081
+EXPOSE 80
 
 # Command to run the executable
 CMD ["./main"]
