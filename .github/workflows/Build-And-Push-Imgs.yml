@@ -1,4 +1,4 @@
-name: Publish Multiple Docker Images to GitHub Container Registry
+name: 'Docker: build and push'
 
 on:
   push:
