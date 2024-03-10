@@ -3,7 +3,7 @@
 1. Login into the vm using the created [bastion](https://learn.microsoft.com/en-us/azure/bastion/bastion-overview)  
     1. In azure portal search for `github-runner-vm` 
     1. In the left pane  under Connect -> `bastion` 
-
+    1. Username: `adminuser`
 ![Bastion settings](./.images/ConnectionBastionSettings.png)
 
 # After the vm was created
