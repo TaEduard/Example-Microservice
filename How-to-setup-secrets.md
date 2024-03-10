@@ -7,7 +7,8 @@ List of secrets required by the repository for the github actions:
 1. `ARM_CLIENT_SECRET` - SPN client secret
 1. `ARM_SUBSCRIPTION_ID` - SPN subscription id
 1. `ARM_TENANT_ID` - SPN tennant id
-
+1. `KUBECONFIGSECRETNAME` - Kubeconfig secret known after the first apply
+1. `KVNAME` - KeyVault Name known after the first apply
 ## Easy way to create the SPN 
 ```
 ad sp create-for-rbac --name TerraformSPN --role Contributor --scopes /subscriptions/<Your-SUB> --sdk-auth
