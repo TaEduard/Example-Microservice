@@ -60,7 +60,7 @@ resource "azurerm_public_ip" "bastion_public_ip" {
 }
 
 # Create Azure Bastion resource
-resource "azurerm_bastion" "bastion" {
+resource "azurerm_bastion_host" "bastion" {
   name                = "github-runner-bastion"
   location            = azurerm_resource_group.aks_rg.location
   resource_group_name = azurerm_resource_group.aks_rg.name
