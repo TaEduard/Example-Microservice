@@ -40,15 +40,15 @@ resource "azurerm_key_vault_secret" "kubeconfig" {
   ]
 }
 
-# resource "azurerm_key_vault_access_policy" "policyVM" {
-#   key_vault_id = azurerm_key_vault.Kv1.id
+resource "azurerm_key_vault_access_policy" "policyVM" {
+  key_vault_id = azurerm_key_vault.Kv1.id
 
-#   tenant_id = data.azurerm_client_config.current.tenant_id
-#   object_id = azurerm_virtual_machine.runner_vm.identity.0.principal_id
+  tenant_id = data.azurerm_client_config.current.tenant_id
+  object_id = azurerm_virtual_machine.runner_vm.identity.0.principal_id
 
-#   secret_permissions = [
-#     "Get",
-#     "List",
-#   ]
-#   depends_on = [ azurerm_virtual_machine.runner_vm ]
-# }
+  secret_permissions = [
+    "Get",
+    "List",
+  ]
+  depends_on = [ azurerm_virtual_machine.runner_vm ]
+}
