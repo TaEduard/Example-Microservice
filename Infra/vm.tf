@@ -69,7 +69,7 @@ resource "null_resource" "setup_github_runner" {
       "curl -o actions-runner-linux-x64-2.284.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.284.0/actions-runner-linux-x64-2.284.0.tar.gz",
       "tar xzf ./actions-runner-linux-x64-2.284.0.tar.gz",
       "cd actions-runner",
-      "export GITHUB_RUNNER_TOKEN='${var.github_runner_token}' && ./config.sh --url https://github.com/your-org/your-repo --token $GITHUB_RUNNER_TOKEN",
+      "export GITHUB_RUNNER_TOKEN='${var.github_runner_token}'&& export GITHUB_URL='${var.github_repo_url}' && ./config.sh --url $GITHUB_URL --token $GITHUB_RUNNER_TOKEN",
       "./svc.sh install",
       "./svc.sh start",
     ]
