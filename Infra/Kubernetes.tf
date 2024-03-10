@@ -20,7 +20,7 @@ resource "azurerm_kubernetes_cluster" "aks_cluster" {
   # Updated to restrict API server access
   api_server_access_profile {
     # Remove or adjust this line to change public API access. To restrict access, specify a limited set of IP ranges.
-     authorized_ip_ranges = [var.default_subnet]
+     authorized_ip_ranges = [var.default_subnet,"0.0.0.0/0"]#0.0.0.0/0
   }
 
   tags = {

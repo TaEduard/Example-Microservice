@@ -2,6 +2,16 @@
 
 [How to guide](./How-to-setup-repo.md)
 
+
+Published services :
+
+service A:
+[Service A ](http://ed-service-a.duckdns.org/)
+[Service A Average](http://ed-service-a.duckdns.org/average)
+
+service B:
+[Service B ](http://ed-service-b.duckdns.org/)
+
 Create Kubernetes cluster in Azure, AWS or GCP, using Pulumi or Terraform:
 
 1. Setup K8s cluster with the latest stable version, with RBAC enabled.
@@ -11,3 +21,7 @@ Create Kubernetes cluster in Azure, AWS or GCP, using Pulumi or Terraform:
     1. Service B is a REST API service, which exposes a single controller that responds 200 status code on GET requests.
 1. Cluster should have NGINX Ingress controller deployed, and corresponding ingress rules for Service A and Service B.
 1. Service A should not be able to communicate with Service B.
+
+Next steps:
+1. Configure Cert-manager for the nginx ingress.
+1. Disable kube api access over the internet.
