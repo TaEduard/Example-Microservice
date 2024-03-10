@@ -18,7 +18,7 @@ func main() {
         }
     })
 
-    log.Println("Service B is running on port 8081")
+    log.Println("Service B is running on port 80")
     // Listen on port 8081, or change the port as needed
-    log.Fatal(http.ListenAndServe(":8081", nil))
+    log.Fatal(http.ListenAndServe(":80", nil))
 }

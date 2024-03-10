@@ -113,7 +113,7 @@ func startWebServer() {
 		w.Write(responseJSON)
 	})
 
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":80", nil))
 }
 
 func main() {
