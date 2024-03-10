@@ -18,7 +18,7 @@ resource "azurerm_key_vault" "Kv1" {
 
 resource "azurerm_key_vault_secret" "kubeconfig" {
   name         = "kubeconfig"
-  value        = file("${path.module}/kubeconfig") # Or use the actual kube_config_raw output from AKS resource
+  value        = azurerm_kubernetes_cluster.aks_cluster.kube_config_raw
   key_vault_id = azurerm_key_vault.Kv1.id
 
   depends_on = [
