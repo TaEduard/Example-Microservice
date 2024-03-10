@@ -6,6 +6,8 @@ on:
       - main
     paths: 
       - 'Infra/**'
+  schedule:
+    - cron: "20 0 * * 0"  # This cron expression triggers the workflow every Sunday at midnight + 20 mins to update the ssh key being rotated.
 
   workflow_dispatch:
 

@@ -1,9 +1,5 @@
 data "azurerm_key_vault_secret" "public_key" {
-  name         = "github-ssh-public-key" # The name used when storing the public key in the Key Vault
-  key_vault_id = azurerm_key_vault.Kv1.id
-}
-data "azurerm_key_vault_secret" "private_key" {
-  name         = "github-ssh-private-key" # The name used when storing the public key in the Key Vault
+  name         = "github-ssh-public-key"
   key_vault_id = azurerm_key_vault.Kv1.id
 }
 
@@ -44,7 +40,7 @@ resource "azurerm_virtual_machine" "runner_vm" {
 
 resource "azurerm_network_interface" "runner_nic" {
   name                = "github-runner-nic"
-  location            = "East US"
+  location            = azurerm_resource_group.aks_rg.location
   resource_group_name = azurerm_resource_group.aks_rg.name
 
   ip_configuration {
@@ -54,28 +50,24 @@ resource "azurerm_network_interface" "runner_nic" {
   }
 }
 
-resource "null_resource" "setup_github_runner" {
-  depends_on = [azurerm_virtual_machine.runner_vm]
+# Create a public IP address for Azure Bastion
+resource "azurerm_public_ip" "bastion_public_ip" {
+  name                = "bastion-public-ip"
+  location            = azurerm_resource_group.aks_rg.location
+  resource_group_name = azurerm_resource_group.aks_rg.name
+  allocation_method   = "Static"
+  sku                 = "Standard"
+}
 
-  triggers = {
-    vm_id = azurerm_virtual_machine.runner_vm.id
-  }
+# Create Azure Bastion resource
+resource "azurerm_bastion" "bastion" {
+  name                = "github-runner-bastion"
+  location            = azurerm_resource_group.aks_rg.location
+  resource_group_name = azurerm_resource_group.aks_rg.name
 
-  connection {
-    type        = "ssh"
-    host        = azurerm_network_interface.runner_nic.private_ip_address
-    user        = "adminuser"
-    private_key = data.azurerm_key_vault_secret.private_key.value
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "curl -o actions-runner-linux-x64-2.284.0.tar.gz -L https://github.com/actions/runner/releases/download/v2.284.0/actions-runner-linux-x64-2.284.0.tar.gz",
-      "tar xzf ./actions-runner-linux-x64-2.284.0.tar.gz",
-      "cd actions-runner",
-      "export GITHUB_RUNNER_TOKEN='${var.github_runner_token}'&& export GITHUB_URL='${var.github_repo_url}' && ./config.sh --url $GITHUB_URL --token $GITHUB_RUNNER_TOKEN",
-      "./svc.sh install",
-      "./svc.sh start",
-    ]
+  ip_configuration {
+    name                 = "github-runner-bastion-ip"
+    subnet_id            = azurerm_subnet.aks_bastion_subnet.id
+    public_ip_address_id = azurerm_public_ip.bastion_public_ip.id
   }
 }
