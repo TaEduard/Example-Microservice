@@ -25,3 +25,4 @@ Create Kubernetes cluster in Azure, AWS or GCP, using Pulumi or Terraform:
 Next steps:
 1. Configure Cert-manager for the nginx ingress.
 1. Disable kube api access over the internet.
+2. Work out quirks with ssh key rotation - the newer key versions don't get picked up by the terraform state. 
