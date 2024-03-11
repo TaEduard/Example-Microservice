@@ -48,6 +48,7 @@ jobs:
       - name: 'Terraform Force Data Fetch'
         if: ${{ steps.check_ssh_key.outputs.enable_ssh_key == 'true' }}
         run: |
+          terraform state rm azurerm_managed_disk.runner_os_disk
           #terraform taint azurerm_virtual_machine.runner_vm || true
           # terraform state rm 'data.azurerm_key_vault_secret.public_key' #> /dev/null
         
