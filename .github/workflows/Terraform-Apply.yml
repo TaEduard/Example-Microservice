@@ -21,7 +21,7 @@ jobs:
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
       #first run after forking the repo TF_VAR_enable_ssh_key should be set to false. 
-      TF_VAR_enable_ssh_key: false # update this to true only after the keyvault was created and the secrets were set.
+      TF_VAR_enable_ssh_key: true # update this to true only after the keyvault was created and the secrets were set.
       WORKING_DIRECTORY: './Infra' 
     # Default settings for all `run` commands in this job
     defaults:
