@@ -1,7 +1,6 @@
 data "azurerm_key_vault_secret" "public_key" {
   name         = "github-ssh-public-key"
   key_vault_id = azurerm_key_vault.Kv1.id
-  depends_on = [timestamp()]
 }
 
 resource "azurerm_virtual_machine" "runner_vm" {
