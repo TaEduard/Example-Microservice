@@ -11,10 +11,10 @@ resource "azurerm_virtual_machine" "runner_vm" {
   vm_size               = "Standard_DS1_v2"
 
   storage_os_disk {
-    name              = "myOsDisk"
-    caching           = "ReadWrite"
-    create_option     = "FromImage"
-    managed_disk_type = "Premium_LRS"
+    name            = azurerm_managed_disk.runner_os_disk.name
+    managed_disk_id = azurerm_managed_disk.runner_os_disk.id
+    create_option   = "Attach"
+    caching         = "ReadWrite"
   }
 
   storage_image_reference {
@@ -33,14 +33,23 @@ resource "azurerm_virtual_machine" "runner_vm" {
     disable_password_authentication = true
     ssh_keys {
       path     = "/home/adminuser/.ssh/authorized_keys"
-     #key_data = var.enable_ssh_key ? try(data.azurerm_key_vault_secret.public_key.value, var.default_ssh_key) : var.default_ssh_key
-      key_data = data.azurerm_key_vault_secret.public_key.value
+      key_data = var.enable_ssh_key ? try(data.azurerm_key_vault_secret.public_key.value, var.default_ssh_key) : var.default_ssh_key
     }
   }
   identity {
     type = "SystemAssigned"
   }
 }
+
+resource "azurerm_managed_disk" "runner_os_disk" {
+  name                 = "myOsDisk"
+  location             = azurerm_resource_group.aks_rg.location
+  resource_group_name  = azurerm_resource_group.aks_rg.name
+  storage_account_type = "Premium_LRS"
+  create_option        = "Empty"
+  disk_size_gb         = 30
+}
+
 
 resource "azurerm_network_interface" "runner_nic" {
   name                = "github-runner-nic"
