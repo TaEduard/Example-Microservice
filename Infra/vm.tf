@@ -33,7 +33,8 @@ resource "azurerm_virtual_machine" "runner_vm" {
     disable_password_authentication = true
     ssh_keys {
       path     = "/home/adminuser/.ssh/authorized_keys"
-      key_data = var.enable_ssh_key ? try(data.azurerm_key_vault_secret.public_key.value, var.default_ssh_key) : var.default_ssh_key
+     #key_data = var.enable_ssh_key ? try(data.azurerm_key_vault_secret.public_key.value, var.default_ssh_key) : var.default_ssh_key
+      key_data = data.azurerm_key_vault_secret.public_key.value
     }
   }
   identity {
