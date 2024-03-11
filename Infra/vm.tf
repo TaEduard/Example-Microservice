@@ -11,10 +11,10 @@ resource "azurerm_virtual_machine" "runner_vm" {
   vm_size               = "Standard_DS1_v2"
 
   storage_os_disk {
-    name            = azurerm_managed_disk.runner_os_disk.name
-    managed_disk_id = azurerm_managed_disk.runner_os_disk.id
-    create_option   = "Attach"
-    caching         = "ReadWrite"
+    name              = "myOsDisk"
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
+    managed_disk_type = "Premium_LRS"
   }
 
   storage_image_reference {
@@ -40,16 +40,6 @@ resource "azurerm_virtual_machine" "runner_vm" {
     type = "SystemAssigned"
   }
 }
-
-resource "azurerm_managed_disk" "runner_os_disk" {
-  name                 = "myOsDisk"
-  location             = azurerm_resource_group.aks_rg.location
-  resource_group_name  = azurerm_resource_group.aks_rg.name
-  storage_account_type = "Premium_LRS"
-  create_option        = "Empty"
-  disk_size_gb         = 30
-}
-
 
 resource "azurerm_network_interface" "runner_nic" {
   name                = "github-runner-nic"
