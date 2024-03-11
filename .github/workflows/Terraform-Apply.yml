@@ -55,5 +55,5 @@ jobs:
       - name: 'Terraform Plan'
         run: terraform plan -no-color > /dev/null
       - name: 'Terraform Apply'
-        run: terraform apply -auto-approve -no-color #> /dev/null 
+        run: terraform apply -auto-approve -no-color > /dev/null 
 
