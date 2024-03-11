@@ -37,13 +37,18 @@ jobs:
         with:
           terraform_version: 1.7.4
      
-      # - name: 'Azure Login'
-      #   uses: azure/login@v2
-      #   with:
-      #     creds: '{"clientId":"${{ secrets.ARM_CLIENT_ID }}","clientSecret":"${{ secrets.ARM_CLIENT_SECRET }}","subscriptionId":"${{ secrets.ARM_SUBSCRIPTION_ID }}","tenantId":"${{ secrets.ARM_TENANT_ID }}"}'
+      - name: 'Check Enable SSH Key Flag'
+        id: check_ssh_key
+        run: |
+          echo "enable_ssh_key=${{ env.TF_VAR_enable_ssh_key }}" >> $GITHUB_OUTPUT
 
       - name: 'Terraform Init'
         run: terraform init 
+      
+      - name: 'Terraform Force Data Fetch'
+        if: ${{ steps.check_ssh_key.outputs.enable_ssh_key == 'true' }}
+        run: terraform state rm 'data.azurerm_key_vault_secret.public_key' #> /dev/null
+
       - name: 'Terraform Plan'
         run: terraform plan -no-color #> /dev/null
       - name: 'Terraform Apply'
